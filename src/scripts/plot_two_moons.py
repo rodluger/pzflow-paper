@@ -9,9 +9,8 @@ from pzflow.examples import get_twomoons_data
 # load the two moons example data
 data = get_twomoons_data()
 
-# create and train a flow to model the two moons data
-flow = Flow(data.columns)
-_ = flow.train(data)
+# load the trained flow
+flow = Flow(file=paths.data / "two_moons_flow.pzflow.pkl")
 
 # calculate the latent variables for a subset of the data
 samples = data[:5_000].to_numpy()
@@ -48,7 +47,7 @@ for row in samples:
 
 
 # create the figure
-fig = plt.figure(figsize=(7.1, 3), constrained_layout=True)
+fig = plt.figure(figsize=(6, 2.6), constrained_layout=True)
 gs = GridSpec(1, 5, figure=fig)
 
 # make the scatter plots
@@ -65,10 +64,10 @@ ax1.scatter(samples[:, 0], samples[:, 1], **scatter_settings)
 ax1.set(
     title="Data Space",
     xlim=(-1.5, 2.5),
-    ylim=(-1, 1.5),
+    ylim=(-1.5, 2),
     xticks=[],
     yticks=[],
-    aspect=4 / 2.5,
+    aspect=4 / 3.5,
 )
 
 # scatter plot of latents (right panel)
@@ -88,22 +87,34 @@ center = fig.add_subplot(gs[2])
 center.axis("off")  # hide the axes
 
 # right arrow and text
-right_arrow = "$" + "\!\!\!\!".join(10 * ["-"] + ["\longrightarrow"]) + "$"
+center.annotate(
+    "",
+    xy=(0.9, 0.6),
+    xytext=(0.1, 0.6),
+    xycoords="axes fraction",
+    arrowprops={"arrowstyle": "->"},
+)
 center.text(
     0.5,
-    0.55,
-    "$x \sim p_X$\n$u = f(x)$\n" + right_arrow,
+    0.6,
+    "$x \sim p_X$\n$u = f(x)$\n",
     transform=center.transAxes,
     ha="center",
     va="bottom",
 )
 
 # left arrow and text
-left_arrow = "$" + "\!\!\!\!".join(["\longleftarrow"] + 10 * ["-"]) + "$"
+center.annotate(
+    "",
+    xy=(0.9, 0.4),
+    xytext=(0.1, 0.4),
+    xycoords="axes fraction",
+    arrowprops={"arrowstyle": "<-"},
+)
 center.text(
     0.5,
-    0.45,
-    left_arrow + "\n$u \sim p_U$\n$x = f^{\,-1}(u)$",
+    0.4,
+    "\n$u \sim p_U$\n$x = f^{\,-1}(u)$",
     transform=center.transAxes,
     ha="center",
     va="top",
