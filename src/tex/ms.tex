@@ -2,6 +2,13 @@
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
 
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes}
+\usetikzlibrary{fit}
+
+\newcommand{\comment}[1]{}
+
 % note command for inline notes
 \newcommand{\note}[1]{\textsf{\textcolor{red}{#1}}}
 % command to note a missing citation
@@ -80,6 +87,16 @@ Maybe mention ShowYourWork and how the scripts and data are all available at the
 \label{sec:nf}
 
 \note{Two moons example figure. Need to convert this to a uniform distribution.}
+\begin{figure}[ht!]
+    \script{two_moons_example.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/twomoons_example.pdf}
+        \caption{
+            Need to write!
+        }
+        \label{fig:two-moons}
+    \end{centering}
+\end{figure}
 
 Normalizing flows model complex, high-dimensional probability distributions by learning a mapping from the data distribution to a tractable latent distribution\footnote{Some of the machine learning literature defines the mapping in the opposite direction.}.
 Often the latent distribution is a standard Normal distribution, and so the mapping ``normalizes'' the data, hence the name ``noramlizing flow''.
@@ -165,14 +182,14 @@ where $g : \R^{D-d} \times \R^d \to \R^{D-d}$ is an invertible \emph{coupling la
 This is illustrated in Figure \ref{fig:coupling}.
 The advantage of this structure is that the Jacobian is triangular,
 \begin{align}
-    \frac{\partial y}{\partial x} = 
+    \frac{\partial y}{\partial x} =
     \begin{pmatrix}
          I_d & 0 \\
-         \frac{\partial y^{}_{d+1:D}}{\partial x^{}_{1:d}} 
+         \frac{\partial y^{}_{d+1:D}}{\partial x^{}_{1:d}}
          & \frac{\partial y^{}_{d+1:D}}{\partial x^{}_{d+1:D}}
     \end{pmatrix},
 \end{align}
-and in particular, the Jacobian determinant is 
+and in particular, the Jacobian determinant is
 \begin{align}
     \det \frac{\partial y}{\partial x} = \det \frac{\partial y^{}_{d+1:D}}{\partial x^{}_{d+1:D}}.
 \end{align}
@@ -198,7 +215,7 @@ The positions and derivatives of the knots that parameterize the splines are cal
 
 RQ-NSCs are state-of-the-art for efficient sampling and density estimation \citep{kobyzev2020}, and are flexible enough to model complex distributions with multiple discontinuities and hundreds of modes.
 In addition, they are easily adaptable for flows with periodic topology (Section \ref{sec:periodic}).
-For more details, see \citet{durkan2019}. 
+For more details, see \citet{durkan2019}.
 
 In this work, we introduce a simple extension of RQ-NSCs, which we name Rational-Quadratic Rolling Spline Couplings (RQ-RSCs).
 An RQ-RSC models $D$ dimensional data by stacking $D$ RQ-NSC layers (with $d=D-1$), each followed by a Rolling layer.
@@ -238,7 +255,6 @@ This reduces the complexity of working with the normalizing flow and ensures tha
 \note{
 Discuss latent distributions here.
 Note that most applications use a Normal Distribution, but since the splines have a compact domain, we need to choose a latent distribution with compact support, or else we might generate strange outliers when sampling from the flow.
-
 Some text for this might already be in the creation module draft.
 }
 
@@ -264,7 +280,7 @@ We will see that by carefully choosing the latent space, we can construct flows 
 
 Positions on the sphere are specified by two angles\footnote{
 We use the physicists' convention where $\theta$ and $\phi$ are the zenith and azimuthal angles, respectively.
-}, 
+},
 $\theta$ and $\phi$, the latter of which is periodic.
 By mapping $\theta$ to $\cos\theta$, we map the sphere to a cylinder\footnote{
 This map can be explicitly constructed via an embedding in $\R^3$.
@@ -291,7 +307,7 @@ While the designation of $\phi=0$ as a fixed point is an unnecessary restriction
 The fourth restriction ensures monotonicity, which guarantees invertibility.
 
 If we make the phase change $\phi \to \phi - \pi$ so that our angles $\phi \in [-\pi, \pi]$, a RQ-NSC with $B=\pi$ automatically fulfills all four constraints.
-In fact, regular RQ-NSC's impose the further condition 
+In fact, regular RQ-NSC's impose the further condition
 \begin{align}
     \nabla f(-\pi) = \nabla f(\pi) = 1 \label{eq:df=1}
 \end{align}
@@ -311,7 +327,7 @@ We can model the joint distribution of periodic and non-periodic variables with 
 \label{sec:discrete}
 
 In addition to the continuous variables described above, normalizing flows can also be used to model discrete variables.
-This can be achieved by ``dequantizing'' the discrete dimensions of the data, which can then be mapped onto continuous latent distributions using regular continuous bijectors. 
+This can be achieved by ``dequantizing'' the discrete dimensions of the data, which can then be mapped onto continuous latent distributions using regular continuous bijectors.
 Dequantization consists of adding some kind of continuous noise to the discrete dimensions, transforming them into continuous dimensions.
 When sampling from the flow, you simply do the opposite, and ``quantize'' the discrete dimensions after applying all of the regular bijections, mapping the noisy, continuous variables onto their discrete counterparts.
 
@@ -377,7 +393,7 @@ We will explain each layer of the bijection in the order they are applied to the
 The first layer of the bijection is a Color Transform.
 This bijection converts galaxy magnitudes to colors, but keeps the $i$ band magnitude as a proxy for the apparent luminosity:
 \begin{multline}
-    \text{Color Transform} : (\text{redshift},\, u,\, g,\, r,\, i,\, z,\, y) \to \\ 
+    \text{Color Transform} : (\text{redshift},\, u,\, g,\, r,\, i,\, z,\, y) \to \\
     (\text{redshift},\, i,\, u-g,\, g-r,\, r-i,\, i-z,\, z-y).
 \end{multline}
 This layer is useful as galaxy redshifts correlate more directly with galaxy colors than galaxy magnitudes.
@@ -391,9 +407,9 @@ We use $D=7$ layers to transform all 7 dimensions of our data, and set $B=5$ to 
 We use the coupling function (with two hidden layers of 128 neurons) described in \citet{durkan2019}.
 We use $K=16$ spline knots \note{check this}.
 
-We trained the normalizing flow for \note{N} epochs using the Adam optimizer \citep{adam} with a learning rate of \note{N} to minimize the negative log likelihood, 
+We trained the normalizing flow for \note{N} epochs using the Adam optimizer \citep{adam} with a learning rate of \note{N} to minimize the negative log-likelihood,
 \begin{align}
-    \mathcal{L} = \mathbb{E}[p(x)],
+    \mathcal{L} = - \, \mathbb{E}[ \, \log p(x) \, ],
 \end{align}
 where the expectation is performed over galaxies in the training set and $p(x)$ is defined in Equation \ref{eq:px}.
 Training took \note{N} minutes on a Tesla P100 12GB GPU.
@@ -419,7 +435,7 @@ In addition to calculating the true posterior, $p(z|m)$, we can calculate a true
     \label{eq:err-conv}
 \end{align}
 where $\sigma_m$ is the vector of photometric errors returned by the error model, and $\hat{m}$ are possible noisy observations of the true magnitudes, $m$.
-We can evaluate this integral numerically by sampling $\hat{m} \sim p(\hat{m}|m, \sigma_m)$, evaluating $p(z, \hat{m})$ on a redshift grid, and normalizing to obtain $p(z|\hat{m})$. 
+We can evaluate this integral numerically by sampling $\hat{m} \sim p(\hat{m}|m, \sigma_m)$, evaluating $p(z, \hat{m})$ on a redshift grid, and normalizing to obtain $p(z|\hat{m})$.
 Averaging $p(z|\hat{m})$ over the samples $\hat{m}$ yields $p(z|m, \sigma_m)$.
 
 We can also marginalize over any missing bands, $n$:
@@ -480,7 +496,7 @@ This small catalog was generated for visualization purposes, but the normalizing
 \section{Photometric Redshift Estimation}
 \label{sec:photo-z}
 
-\appendix 
+\appendix
 A. Failed (?) experiments
 
 - CentBeta - harder to train, slower, results aren't better
