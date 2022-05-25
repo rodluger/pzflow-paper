@@ -1,6 +1,7 @@
 """Create the two moons example figure."""
 import matplotlib.pyplot as plt
 import numpy as np
+import paths
 from matplotlib.gridspec import GridSpec
 from pzflow import Flow
 from pzflow.examples import get_twomoons_data
@@ -109,4 +110,4 @@ center.text(
 )
 
 # save the figure!
-fig.savefig("twomoons_example.pdf", dpi=600)
+fig.savefig(paths.figures / "twomoons_example.pdf", dpi=600)
