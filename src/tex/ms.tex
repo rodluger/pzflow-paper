@@ -409,13 +409,12 @@ We use $D=7$ layers to transform all 7 dimensions of our data, and set $B=5$ to 
 We use the coupling function (with two hidden layers of 128 neurons) described in \citet{durkan2019}.
 We use $K=16$ spline knots \note{check this}.
 
-We trained the normalizing flow for \note{N} epochs using the Adam optimizer \citep{adam} with a learning rate of \note{N} to minimize the negative log-likelihood,
+We trained the normalizing flow for 150 epochs using the Adam optimizer \citep{adam} (with a learning rate of $10^{-3}$, that decreased by a factor of 10 every 50 epochs) to minimize the negative log-likelihood,
 \begin{align}
     \mathcal{L} = - \, \mathbb{E}[ \, \log p(x) \, ],
 \end{align}
 where the expectation is performed over galaxies in the training set and $p(x)$ is defined in Equation \ref{eq:px}.
-Training took \note{N} minutes on a Tesla P100 12GB GPU.
-The training and test losses can be seen in Figure \note{X}.
+Training took 7 minutes on a Tesla P100 12GB GPU.
 
 We assess the results by drawing $10^4$ galaxies from the trained flow, and plotting their distribution against  $10^4$ galaxies from the test set (Figure \note{X}).
 We see that the normalizing flow has done an excellent job of reproducing the distribution of DESC DC2, without any unusual artifacts or outliers.
