@@ -86,13 +86,15 @@ Maybe mention ShowYourWork and how the scripts and data are all available at the
 \section{Normalizing Flows}
 \label{sec:nf}
 
-\note{Two moons example figure. Need to convert this to a uniform distribution.}
 \begin{figure*}[t!]
     \script{plot_two_moons.py}
     \begin{centering}
         \includegraphics{figures/twomoons_example.pdf}
         \caption{
-            Need to write!
+            A normalizing flow demonstrated on the two moons data set from \texttt{scikit-learn}.
+            The two moons data on the left is mapped onto a two dimensional uniform distribution by the bijection $f$.
+            The data are colored by quadrant to visualize their image in the latent space.
+            You can sample the data distribution by sampling from the uniform distribution, and using $f^{-1}$ to map the back to the data space.
         }
         \label{fig:two-moons}
     \end{centering}
@@ -113,7 +115,7 @@ In words, computing the density $\px(x)$ is accomplished by mapping $x$ to the l
 
 If we further assume that is invertible, we can sample from the data distribution by appling $f^{-1}$ to samples from the latent distribution:
 \begin{align}
-    x = f^{-1} \quad \text{where} \quad u \sim \pu.
+    x = f^{-1}(u) \quad \text{where} \quad u \sim \pu.
 \end{align}
 
 Figure \ref{fig:two-moons} shows an example of a normalizing flow that transforms the \texttt{scikit-learn} two moons distribution into a uniform distribution.
@@ -124,7 +126,7 @@ Section \ref{sec:bijections} discusses the bijection $f$ and introduces the buil
 Section \ref{sec:latent} discusses how to choose an appropriate latent distribution for your data;
 Section \ref{sec:conditional} describe how to condition a normalizing flow on some conditional variables;
 Section \ref{sec:periodic} explains how to model data with periodic topology;
-finally Section \ref{sed:discrete} explains how to model data with discrete variables.
+finally Section \ref{sec:discrete} explains how to model data with discrete variables.
 
 
 \subsection{Designing a bijection}
@@ -143,7 +145,7 @@ There is an extensive literature on constructing these sub-bijections (see \cite
 Some bijections are specialized to be particularly efficient at either density estimation or sampling, but for many science cases, we wish to do both.
 For this reason, we will focus on Rational-Quadratic Rolling Spline Couplings (RQ-RSCs), which achieve state-of-the-art performance, while being efficient with both tasks \citep{durkan2019}.
 
-\subsubsection{Rational-Quadratic Rolling Spline Couplings (RQ-RSCs)}
+\subsubsection{Rational-Quadratic Rolling Spline Couplings}
 \label{sec:rq-rsc}
 
 \begin{figure}
