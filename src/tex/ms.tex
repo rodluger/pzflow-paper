@@ -19,7 +19,7 @@
 \newcommand{\pu}{p^{}_{U}}
 \newcommand{\R}{\mathbb{R}}
 
-\shorttitle{Galaxy Catalogues with Normalizing Flows}
+\shorttitle{Modeling Galaxy Catalogues with Normalizing Flows}
 \shortauthors{Crenshaw et al.}
 
 % Begin!
@@ -380,6 +380,18 @@ In Section \ref{sec:fwd-model-conditional} we build a conditional flow to add ad
 \subsection{Forward modeling redshifts and photometry}
 \label{sec:fwd-model}
 
+\begin{figure*}[t!]
+    \script{plot_main_galaxy_corner.py}
+    \begin{centering}
+        \includegraphics{figures/main_galaxy_corner.pdf}
+        \caption{
+            Distribution of the CosmoDC2 test set compared to the distribution learned by PZFlow.
+            The close overlap of every pair-wise disttribution demonstrates that PZFlow was able to learn the structure present in CosmoDC2 with high fidelity.
+        }
+        \label{fig:main-corner}
+    \end{centering}
+\end{figure*}
+
 To create a generative model of galaxy redshifts and photometry, we use the true redshifts and $ugrizy$ magnitudes from the DESC CosmoDC2 simulation (\needscite).
 We selected all galaxies from CosmoDC2 with at most one band beyond the LSST 10-year 5-sigma point source depths.
 Of these, we selected $10^6$ galaxies and split them intro training and test sets consisting of 80\% and 20\% of the galaxies, respectively.
@@ -407,7 +419,7 @@ The final layer is an RQ-RSC, described in detail in Section \ref{sec:rq-rsc}.
 This layer performs the heavy lifting of transforming the data distribution into the uniform latent distribution.
 We use $D=7$ layers to transform all 7 dimensions of our data, and set $B=5$ to match the support of the latent distribution.
 We use the coupling function (with two hidden layers of 128 neurons) described in \citet{durkan2019}.
-We use $K=16$ spline knots \note{check this}.
+We use $K=16$ spline knots.
 
 We trained the normalizing flow for 150 epochs using the Adam optimizer \citep{adam} (with a learning rate of $10^{-3}$, that decreased by a factor of 10 every 50 epochs) to minimize the negative log-likelihood,
 \begin{align}
@@ -416,7 +428,7 @@ We trained the normalizing flow for 150 epochs using the Adam optimizer \citep{a
 where the expectation is performed over galaxies in the training set and $p(x)$ is defined in Equation \ref{eq:px}.
 Training took 7 minutes on a Tesla P100 12GB GPU.
 
-We assess the results by drawing $10^4$ galaxies from the trained flow, and plotting their distribution against  $10^4$ galaxies from the test set (Figure \note{X}).
+We assess the results by drawing $10^4$ galaxies from the trained flow, and plotting their distribution against  $10^4$ galaxies from the test set (Figure \ref{fig:main-corner}).
 We see that the normalizing flow has done an excellent job of reproducing the distribution of DESC DC2, without any unusual artifacts or outliers.
 We note that these results were obtained without any extensive hyperparameter search, and that very similar (slightly worse results) are obtained without the \texttt{ColorTransform} bijection, demonstrating the flexibility of the method to adapt to unseen data sets.
 
