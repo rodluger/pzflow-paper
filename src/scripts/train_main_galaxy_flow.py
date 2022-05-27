@@ -1,4 +1,6 @@
 """Train the flow that models galaxy redshift and photometry."""
+from pathlib import Path
+
 import numpy as np
 import optax
 import pandas as pd
@@ -65,8 +67,12 @@ flow.info = (
     "for 1 million galaxies from CosmoDC2 (arXiv:1907.06530)."
 )
 
+# create the directory the outputs will be saved in
+output_dir = paths.data / "main_galaxy_flow"
+Path.mkdir(output_dir, exist_ok=True)
+
 # save the flow
-flow.save(paths.data / "main_galaxy_flow.pzflow.pkl")
+flow.save(output_dir / "flow.pzflow.pkl")
 
 # save the losses
-np.save(paths.data / "main_galaxy_flow_losses.npy", np.array(losses))
+np.save(output_dir / "losses.npy", np.array(losses))

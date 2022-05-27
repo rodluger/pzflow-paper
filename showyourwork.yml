@@ -3,4 +3,4 @@ dependencies:
   src/scripts/plot_two_moons.py:
     - src/data/two_moons_flow.pzflow.pkl
   src/scripts/plot_main_galaxy_corner.py:
-    - src/data/main_galaxy_flow.pzflow.pkl
+    - src/data/main_galaxy_flow/

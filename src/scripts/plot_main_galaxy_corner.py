@@ -16,7 +16,7 @@ test_set = data.loc[int(0.2 * len(data)) :, ["redshift"] + list("ugrizy")]
 test_set = test_set[:n_samples]
 
 # draw samples from the saved flow
-flow = Flow(file=paths.data / "main_galaxy_flow.pzflow.pkl")
+flow = Flow(file=paths.data / "main_galaxy_flow" / "flow.pzflow.pkl")
 samples = flow.sample(n_samples, seed=0)
 
 # create the corner plot
