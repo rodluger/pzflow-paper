@@ -4,7 +4,7 @@ rule train_two_moons_flow:
     cache:
         True
     script:
-        "src/scripts/train_two_moons.py"
+        "src/scripts/train_two_moons_flow.py"
 
 rule train_main_galaxy_flow:
     output:
