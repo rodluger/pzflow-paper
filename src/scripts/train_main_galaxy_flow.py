@@ -70,7 +70,7 @@ flow.info = (
 flow.save(paths.data / "main_galaxy_flow.pzflow.pkl")
 
 # plot the losses
-fig, ax = plt.subplots(figsize=(3.2, 2.5))
+fig, ax = plt.subplots(figsize=(3.2, 2.5), constrained_layout=True)
 ax.plot(losses)
 ax.set(xlabel="Epochs", ylabel="Loss")
 fig.savefig(paths.data / "main_galaxy_flow_training_loss.pdf")
