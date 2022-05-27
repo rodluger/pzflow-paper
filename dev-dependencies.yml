@@ -1,5 +1,4 @@
-name:
-  - pzflow-paper
+name: pzflow-paper
 channels:
   - defaults
   - conda-forge
@@ -28,5 +27,5 @@ dependencies:
   - python=3.9
   - pip:
       - flake8-eradicate==1.2.1
-      - pzflow==3.0.0
+      - pzflow==3.0.2
       - showyourwork==0.3.0.dev3
