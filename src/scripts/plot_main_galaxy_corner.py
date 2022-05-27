@@ -60,4 +60,4 @@ axes[2, 5].plot([], c="C3", label="CosmoDC2")
 axes[2, 5].legend()
 
 # save the figure
-fig.savefig(paths.figures / "main_galaxy_corner.pdf", dpi=600)
+fig.savefig(paths.figures / "main_galaxy_corner.pdf", dpi=600, bbox_inches="tight")

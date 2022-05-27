@@ -1,4 +1,6 @@
 """Train conditional flow that models p(ellipticity, size | redshift, photometry)."""
+from pathlib import Path
+
 import numpy as np
 import optax
 import pandas as pd
@@ -8,7 +10,7 @@ from pzflow.bijectors import Chain, RollingSplineCoupling, ShiftBounds
 
 # load the training data
 data = pd.read_pickle(paths.data / "cosmoDC2_subset.pkl")
-train_set = data.loc[: int(0.8 * len(data)), ["redshift"] + list("ugrizy")]
+train_set = data.loc[: int(0.8 * len(data))]
 
 # set up the bijector
 # the first bijector is shift bounds
@@ -55,8 +57,12 @@ flow.info = (
     "where all quantities are their true values from CosmoDC2 (arXiv:1907.06530). "
 )
 
+# create the directory the outputs will be saved in
+output_dir = paths.data / "conditional_galaxy_flow"
+Path.mkdir(output_dir, exist_ok=True)
+
 # save the flow
-flow.save(paths.data / "conditional_galaxy_flow.pzflow.pkl")
+flow.save(output_dir / "flow.pzflow.pkl")
 
 # save the losses
-np.save(paths.data / "conditional_galaxy_flow_losses.npy", np.array(losses))
+np.save(output_dir / "losses.npy", np.array(losses))

@@ -13,3 +13,11 @@ rule train_main_galaxy_flow:
         True
     script:
         "src/scripts/train_main_galaxy_flow.py"
+
+rule train_conditional_galaxy_flow:
+    output:
+        directory("src/data/conditional_galaxy_flow")
+    cache:
+        True
+    script:
+        "src/scripts/train_conditional_galaxy_flow.py"

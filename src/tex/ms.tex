@@ -386,7 +386,7 @@ In Section \ref{sec:fwd-model-conditional} we build a conditional flow to add ad
         \includegraphics{figures/main_galaxy_corner.pdf}
         \caption{
             Distribution of the CosmoDC2 test set compared to the distribution learned by PZFlow.
-            The close overlap of every pair-wise disttribution demonstrates that PZFlow was able to learn the structure present in CosmoDC2 with high fidelity.
+            The close overlap of every pair-wise distribution demonstrates that PZFlow was able to learn the structure present in CosmoDC2 with high fidelity.
         }
         \label{fig:main-corner}
     \end{centering}
@@ -480,6 +480,18 @@ This allows you to test photo-z estimation on a posterior-per-galaxy basis, whic
 \subsection{Additional properties with conditional flows}
 \label{sec:fwd-model-condtional}
 
+\begin{figure*}[t!]
+    \script{plot_conditional_galaxy_corner.py}
+    \begin{centering}
+        \includegraphics{figures/conditional_galaxy_corner.pdf}
+        \caption{
+            Distribution of the ellipticities and sizes of the galaxies in the CosmoDC2 test set compared to the distribution learned by PZFlow.
+            The close overlap of every pair-wise distribution demonstrates that PZFlow was able to learn the structure present in CosmoDC2 with high fidelity.
+        }
+        \label{fig:conditional-corner}
+    \end{centering}
+\end{figure*}
+
 In addition to the galaxy magnitudes and redshifts modeled above, we wish to include other galaxy properties in the catalog, such as galaxy size and ellipticity.
 In principle, we could have included these variables in the original normalizing flow.
 However, we did not want the true redshift posteriors to be conditioned on these variables, as most photo-z estimators only use galaxy photometry.
@@ -510,16 +522,30 @@ This small catalog was generated for visualization purposes, but the normalizing
 \label{sec:photo-z}
 
 \appendix
-A. Failed (?) experiments
+
+\section{Training details}
+
+\begin{figure*}[t!]
+    \script{plot_galaxy_flow_losses.py}
+    \begin{centering}
+        \includegraphics{figures/galaxy_flow_losses.pdf}
+        \caption{
+            Training losses for the galaxy flows.
+        }
+        \label{fig:galaxy-flow-losses}
+    \end{centering}
+\end{figure*}
+
+\section{LSST Error Model}
+
+- Explain how I adapted the LSST Error Model to work for low-SNR galaxies
+
+\section{Failed experiments}
 
 - CentBeta - harder to train, slower, results aren't better
 - convolving Gaussian errors analytically (use the trained flow from above to plot the gradients of the spline or something and show that the necessary assumptions are not valid)
 
-B. LSST Error Model
-
-- Explain how I adapted the LSST Error Model to work for low-SNR galaxies
-
-C. Benchmarking PZFlow
+\section{Benchmarking PZFlow}
 
 
 \bibliography{references.bib}
