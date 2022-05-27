@@ -9,7 +9,6 @@ rule train_two_moons_flow:
 rule train_main_galaxy_flow:
     output:
         "src/data/main_galaxy_flow.pzflow.pkl"
-        "src/data/main_galaxy_flow_losses.npy"
     cache:
         True
     script:
