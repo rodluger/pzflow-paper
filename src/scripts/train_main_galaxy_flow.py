@@ -1,5 +1,4 @@
 """Train the flow that models galaxy redshift and photometry."""
-import matplotlib.pyplot as plt
 import numpy as np
 import optax
 import pandas as pd
@@ -69,8 +68,5 @@ flow.info = (
 # save the flow
 flow.save(paths.data / "main_galaxy_flow.pzflow.pkl")
 
-# plot the losses
-fig, ax = plt.subplots(figsize=(3.2, 2.5), constrained_layout=True)
-ax.plot(losses)
-ax.set(xlabel="Epochs", ylabel="Loss")
-fig.savefig(paths.data / "main_galaxy_flow_training_loss.pdf")
+# save the losses
+np.save(paths.data / "main_galaxy_flow_losses.npy", np.array(losses))
