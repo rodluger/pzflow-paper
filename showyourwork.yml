@@ -6,6 +6,6 @@ dependencies:
     - src/data/main_galaxy_flow/
   src/scripts/plot_conditional_galaxy_corner.py:
     - src/data/conditional_galaxy_flow/
-  src/scripts/plot_galaxy_flow_losses.py:
+  src/scripts/plot_galaxy_losses.py:
     - src/data/main_galaxy_flow/
     - src/data/conditional_galaxy_flow/
