@@ -41,10 +41,12 @@ corner_settings = {
 }
 
 # plot the test set in red
-corner.corner(test_set, color="C3", **corner_settings)
+corner.corner(test_set.to_numpy(), color="C3", **corner_settings)
 
 # plot the PZFlow samples in blue
-corner.corner(samples, color="C0", data_kwargs={"ms": 1.5}, **corner_settings)
+corner.corner(
+    samples.to_numpy(), color="C0", data_kwargs={"ms": 1.5}, **corner_settings
+)
 
 # set ticks to integers
 axes = np.array(fig.axes).reshape((7, 7))
